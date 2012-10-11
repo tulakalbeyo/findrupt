@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#echo Hello World
+#
+#==================================================
+#info
+#==================================================
+# findrupt 0.2
+# by carlos duarte
+# released under isc license (http://en.wikipedia.org/wiki/ISC_license)
+# works on xubuntu 11.10, your millage may vary :-P
+
+#==================================================
+#to install this script
+#==================================================
+# sudo cp ~/Desktop/findrupt /usr/local/bin/; sudo chown root /usr/local/bin/findrupt; sudo chmod +x /usr/local/bin/findrupt; hash -r #this script goes in /usr/local/bin/; chowned to root; with execute bit set; a rehash is performed
+#
+
+if [ "$1" = "" ];
+#
+then echo; printf '%s' "which directory?"; echo; echo; exit; #no arguments
+#
+else
+find "$1" -type f | while read LINE; do hex="$( xxd -ps -l 8 "$LINE")"; echo "$hex $LINE" >> ~/Desktop/hexlist.txt; done && if grep 0000000000000000 ~/Desktop/hexlist.txt > ~/Desktop/corrlist.txt; then notify-send "corruption analysis completed" && gedit ~/Desktop/corrlist.txt; else notify-send "corruption analysis completed - no corruption found"; fi
+
+#
+fi;
+#
+#
+exit
